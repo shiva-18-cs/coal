@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - MOCK_MODE=true
+      - AI_PROVIDER=mock
+      - OCR_PROVIDER=mock
+      - SEARCH_PROVIDER=mock
+      - DATABASE_MODE=sqlite
+      - DATABASE_URL=sqlite:///./data/minesight.db
+    volumes:
+      - ./data:/app/data
